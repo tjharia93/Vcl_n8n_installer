@@ -1,0 +1,12 @@
+services:
+  n8n:
+    image: n8nio/n8n:stable
+    container_name: vcl-n8n
+    restart: unless-stopped
+    ports:
+      - "${N8N_PORT}:5678"
+    env_file:
+      - /opt/vcl/config/.env
+    volumes:
+      - /opt/vcl/runtime/n8n_data:/home/node/.n8n
+      - /opt/vcl/runtime/files:/files

@@ -1,0 +1,13 @@
+# Default values for the VCL n8n installer
+# These are used as defaults when the user presses Enter during input collection
+
+INSTALL_MODE=production
+DB_CHOICE=postgres
+N8N_HOST=localhost
+N8N_PORT=5678
+N8N_PROTOCOL=http
+TZ_VALUE=Africa/Nairobi
+N8N_USER=admin
+ZOHO_IMAP_HOST=imap.zoho.com
+ZOHO_IMAP_PORT=993
+ZOHO_IMAP_SSL=true

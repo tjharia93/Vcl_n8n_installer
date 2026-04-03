@@ -1,0 +1,33 @@
+services:
+  postgres:
+    image: postgres:16
+    container_name: vcl-postgres
+    restart: unless-stopped
+    env_file:
+      - /opt/vcl/config/.env
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - /opt/vcl/runtime/postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  n8n:
+    image: n8nio/n8n:stable
+    container_name: vcl-n8n
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+    ports:
+      - "${N8N_PORT}:5678"
+    env_file:
+      - /opt/vcl/config/.env
+    volumes:
+      - /opt/vcl/runtime/n8n_data:/home/node/.n8n
+      - /opt/vcl/runtime/files:/files
